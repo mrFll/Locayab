@@ -1,0 +1,144 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.0.17-nt
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema locayab_db
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ locayab_db;
+USE locayab_db;
+
+--
+-- Table structure for table `locayab_db`.`t_client`
+--
+
+DROP TABLE IF EXISTS `t_client`;
+CREATE TABLE `t_client` (
+  `clnNationalID` varchar(15) character set utf8 NOT NULL default '',
+  `clnFirstName` varchar(45) character set utf8 NOT NULL default '',
+  `clnLastName` varchar(45) character set utf8 NOT NULL default '',
+  `clnTell` varchar(45) character set utf8 NOT NULL default '',
+  `clnAdmin` tinyint(1) NOT NULL default '0',
+  `clnPass` varchar(45) character set utf8 NOT NULL default '',
+  `clnAddress` varchar(100) character set utf8 NOT NULL default '',
+  `ID` int(10) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `locayab_db`.`t_client`
+--
+
+/*!40000 ALTER TABLE `t_client` DISABLE KEYS */;
+INSERT INTO `t_client` (`clnNationalID`,`clnFirstName`,`clnLastName`,`clnTell`,`clnAdmin`,`clnPass`,`clnAddress`,`ID`) VALUES 
+ ('2282485361','پرهام','فلاحی','09171047940',0,'adminadmin','شیراز - چهارراه ادبیات - بلوار چهلمقام - ساختمان البرز',5),
+ ('admin','ادمين','ادمين','0000000000',1,'admin','ايران',6);
+/*!40000 ALTER TABLE `t_client` ENABLE KEYS */;
+
+
+--
+-- Table structure for table `locayab_db`.`t_home`
+--
+
+DROP TABLE IF EXISTS `t_home`;
+CREATE TABLE `t_home` (
+  `ID` int(10) unsigned NOT NULL auto_increment,
+  `ClientID` int(10) unsigned NOT NULL default '0',
+  `homCost` int(10) unsigned NOT NULL default '0',
+  `homRooms` int(10) unsigned NOT NULL default '0',
+  `homMeter` int(10) unsigned default NULL,
+  `homCity` varchar(30) character set utf8 NOT NULL default '',
+  `homAddress` varchar(100) character set utf8 NOT NULL default '',
+  `homOption` varchar(20) character set utf8 NOT NULL default '',
+  `homLocation` varchar(70) character set utf8 NOT NULL default '',
+  `homPhotoID` varchar(120) collate utf8_unicode_ci NOT NULL default '',
+  PRIMARY KEY  (`ID`),
+  KEY `FK_t_home_client` (`ClientID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='home details; InnoDB free: 4096 kB; (`ClientID`) REFER `loca';
+
+--
+-- Dumping data for table `locayab_db`.`t_home`
+--
+
+/*!40000 ALTER TABLE `t_home` DISABLE KEYS */;
+INSERT INTO `t_home` (`ID`,`ClientID`,`homCost`,`homRooms`,`homMeter`,`homCity`,`homAddress`,`homOption`,`homLocation`,`homPhotoID`) VALUES 
+ (4,5,100000000,3,500,'شیراز','خیابان ارم - سروناز هشتم - ساختمان اقاقیا','رهن','[29.635714,52.529669]','2f5e88c8-cd82-4965-aa9b-8fedca3c0417'),
+ (5,5,50000000,7,210,'شیراز','خیابان زرگری کوچه 20 پلاک 69','رهن','[29.567933,52.548122]','b0b2c96d-d505-4616-a037-90edd422b012'),
+ (6,5,84000000,3,150,'شیراز','خیابان قصرالدشت کوچه 27 فرعی 27/3  پلاک 98','رهن','[29.651678,52.481797]','cf6cca7d-4335-4443-83a8-db45088c267f'),
+ (7,5,60000000,1,200,'شیراز','خیابان حافظ کوچه 7 ساختما گل ها','رهن','[29.631368,52.554442]','23ea32f4-e748-4595-8e6d-e6910a34b769'),
+ (8,5,950000000,3,250,'شیراز','خیابان ستارخان کوچه 8 پلاک 56','رهن','[29.6395,52.496538]','3ca46778-0cbe-4a48-b379-34be87436ccb'),
+ (9,5,110000000,4,250,'شیراز','میدان اطلسی کوچه جنب کتابخانه ی رییسی ساختمان زنبق','رهن','[29.628123,52.551985]','8470e7c3-75cb-46a5-9513-860be3c6b41c');
+/*!40000 ALTER TABLE `t_home` ENABLE KEYS */;
+
+
+--
+-- Table structure for table `locayab_db`.`t_pinned`
+--
+
+DROP TABLE IF EXISTS `t_pinned`;
+CREATE TABLE `t_pinned` (
+  `ID` int(10) unsigned NOT NULL auto_increment,
+  `pnClientID` int(10) unsigned NOT NULL default '0',
+  `pnHomeID` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`ID`),
+  KEY `FK_t_pinned_1` (`pnClientID`),
+  KEY `FK_t_pinned_2` (`pnHomeID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='InnoDB free: 4096 kB; (`pnClientID`) REFER `locayab_db/t_cli';
+
+--
+-- Dumping data for table `locayab_db`.`t_pinned`
+--
+
+/*!40000 ALTER TABLE `t_pinned` DISABLE KEYS */;
+INSERT INTO `t_pinned` (`ID`,`pnClientID`,`pnHomeID`) VALUES 
+ (1,5,9),
+ (2,5,4);
+/*!40000 ALTER TABLE `t_pinned` ENABLE KEYS */;
+
+
+--
+-- Table structure for table `locayab_db`.`t_review`
+--
+
+DROP TABLE IF EXISTS `t_review`;
+CREATE TABLE `t_review` (
+  `ID` int(10) unsigned NOT NULL auto_increment,
+  `rwHomeID` int(10) unsigned NOT NULL default '0',
+  `rwText` varchar(100) character set utf8 NOT NULL default '',
+  `rwName` varchar(45) character set utf8 NOT NULL default '',
+  PRIMARY KEY  (`ID`),
+  KEY `FK_t_review_1` (`rwHomeID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `locayab_db`.`t_review`
+--
+
+/*!40000 ALTER TABLE `t_review` DISABLE KEYS */;
+INSERT INTO `t_review` (`ID`,`rwHomeID`,`rwText`,`rwName`) VALUES 
+ (4,5,'نور خوبی داشت','محسن'),
+ (5,5,'خیلی دلباز بود','سارا'),
+ (6,7,'گرون هست نسبتا','بنفشه'),
+ (7,6,'خونه دکور آرارمش بخشی داره، نور پردازی خوب و استفاده از رنگ های مناسب','ساسان');
+/*!40000 ALTER TABLE `t_review` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
